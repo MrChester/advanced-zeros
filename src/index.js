@@ -1,5 +1,3 @@
-const isPrimeNumber = require('./isPrimeNumber');
-
 module.exports = function getZerosCount(number, base) {
     var count = 0,
         primeNumbers = [],
