@@ -1,7 +1,8 @@
 module.exports = function getZerosCount(number, base) {
     var count = 0,
         primeNumbers = [],
-        maxPrimeDivisor = 0;
+        powerOfTwo = 0,
+        maxPrimeDivisor;
 
     function isPrimeNumber(n) {
 
@@ -19,22 +20,31 @@ module.exports = function getZerosCount(number, base) {
         }
     }
 
-    for (let i = 2; i <= base; i++) {
+    for (let i = 2; i < 257; i++) {
         if (isPrimeNumber(i)) {
             primeNumbers.push(i);
         }
     }
 
-    for (let i = 0; i <= base; i++) {
+    for (let i = 0; primeNumbers[i] <= base; i++) {
         if (base % primeNumbers[i] === 0) {
             maxPrimeDivisor = primeNumbers[i];
         }
     }
 
-    while (number > 0) {
-        number = Math.floor(number / maxPrimeDivisor);
-        count += number;
+    for (let i = 1; i <= base; i++) {
+        if (Math.pow(maxPrimeDivisor, i) <= base) {
+            powerOfTwo++;
+        }
     }
 
-    return count;
+    for (let i = 1; i <= number; i++) {
+        while (Math.pow(maxPrimeDivisor, i) < number) {
+            number = Math.floor(number / Math.pow(maxPrimeDivisor, i));
+            count += number;
+        }
+
+    }
+
+    return Math.floor(count / powerOfTwo);
 }
